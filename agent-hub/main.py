@@ -313,7 +313,7 @@ Cite the source document name when available."""
 _chroma_client: chromadb.AsyncHttpClient | None = None
 _chroma_collection: Any | None = None
 
-CHROMA_COLLECTION_NAME = "agent_hub_knowledge"
+CHROMA_COLLECTION_NAME = "knowledge_base"
 
 
 async def _get_chroma_collection() -> Any | None:
