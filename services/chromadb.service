@@ -1,0 +1,18 @@
+[Unit]
+Description=ChromaDB vector store
+After=network-online.target
+
+[Service]
+Type=simple
+User=merry
+WorkingDirectory=/home/<YOUR_USER>
+Environment="VIRTUAL_ENV=/home/<YOUR_USER>/venv"
+Environment="PATH=/home/<YOUR_USER>/venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+ExecStart=/home/<YOUR_USER>/venv/bin/chroma run --path /home/<YOUR_USER>/chromadb --port 8001 --host 0.0.0.0
+Restart=on-failure
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

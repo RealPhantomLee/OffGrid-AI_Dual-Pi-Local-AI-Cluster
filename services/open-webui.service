@@ -1,0 +1,26 @@
+[Unit]
+Description=Open WebUI (Docker, ARM64)
+After=docker.service network-online.target
+Requires=docker.service
+
+[Service]
+Type=simple
+User=merry
+ExecStartPre=-/usr/bin/docker rm -f open-webui
+ExecStart=/usr/bin/docker run --rm --name open-webui \
+    -p 3000:8080 \
+    -e OLLAMA_BASE_URL=http://host-gateway:11434 \
+    -e OPENAI_API_BASE_URL=http://host-gateway:8080/v1 \
+    -e OPENAI_API_KEY=none \
+    -e WEBUI_SECRET_KEY=<CHANGE_ME: openssl rand -hex 32> \
+    --add-host=host-gateway:host-gateway \
+    -v /home/<YOUR_USER>/open-webui-data:/app/backend/data \
+    ghcr.io/open-webui/open-webui:main
+ExecStop=/usr/bin/docker stop open-webui
+Restart=on-failure
+RestartSec=15
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

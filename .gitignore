@@ -1,0 +1,29 @@
+# Secrets
+.env
+*.env
+secrets/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+*.egg-info/
+
+# Models (too large for git — download via setup script)
+models/*.gguf
+models/*.bin
+
+# Data
+chromadb/
+rag-logs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp

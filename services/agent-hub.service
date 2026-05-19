@@ -1,0 +1,19 @@
+[Unit]
+Description=Agent Hub (FastAPI orchestrator)
+After=network-online.target ollama.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=merry
+WorkingDirectory=/home/<YOUR_USER>/agent-hub
+Environment="VIRTUAL_ENV=/home/<YOUR_USER>/venv"
+Environment="PATH=/home/<YOUR_USER>/venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+ExecStart=/home/<YOUR_USER>/venv/bin/uvicorn main:app --host 0.0.0.0 --port 8000 --workers 2
+Restart=on-failure
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

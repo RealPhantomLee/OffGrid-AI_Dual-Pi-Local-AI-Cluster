@@ -1,0 +1,16 @@
+[Unit]
+Description=Whisper transcription server
+After=network-online.target
+
+[Service]
+Type=simple
+User=merry
+WorkingDirectory=/home/<YOUR_USER>
+ExecStart=/home/<YOUR_USER>/venv/bin/python3 /home/<YOUR_USER>/whisper-server.py
+Restart=on-failure
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,11 @@
+[Unit]
+Description=RAG knowledge base ingestion
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=merry
+ExecStart=/bin/bash /home/<YOUR_USER>/scripts/rag-ingest.sh
+StandardOutput=journal
+StandardError=journal

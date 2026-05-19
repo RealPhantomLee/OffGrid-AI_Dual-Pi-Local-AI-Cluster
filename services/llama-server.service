@@ -1,0 +1,24 @@
+[Unit]
+Description=llama.cpp HTTP server (mistral-small-3.1-24b with RPC offload to jolly)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=merry
+WorkingDirectory=/home/<YOUR_USER>
+ExecStart=/home/<YOUR_USER>/llama.cpp/build/bin/llama-server \
+    --model /home/<YOUR_USER>/models/mistral-small-3.1-24b-instruct-Q4_K_M.gguf \
+    --host 0.0.0.0 \
+    --port 8080 \
+    --ctx-size 4096 \
+    --n-gpu-layers 0 \
+    --no-repack \
+    --rpc <JOLLY_IP>:50052
+Restart=on-failure
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

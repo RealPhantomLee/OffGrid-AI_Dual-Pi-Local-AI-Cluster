@@ -1,0 +1,18 @@
+# Modelfile for AIPI — local assistant on Raspberry Pi 5 + Hailo-8 cluster
+#
+# Option A (recommended if Ollama downloaded the model via 'ollama pull mistral-small:22b'):
+#   FROM mistral-small:22b
+#
+# Option B (use local GGUF directly — supported in Ollama >= 0.1.23):
+#   FROM /home/merry/models/mistral-small-3.1-24b-instruct-Q4_K_M.gguf
+#
+# Uncomment whichever matches your setup. Option B is set below so the file
+# works out of the box with the GGUF you've already downloaded.
+
+FROM /home/merry/models/mistral-small-3.1-24b-instruct-Q4_K_M.gguf
+
+SYSTEM """You are AIPI, a local AI assistant running on a Raspberry Pi 5 cluster with a Hailo-8 AI accelerator. You have access to a local knowledge base updated daily. Always be concise and helpful. For facts, indicate whether they come from your training data or the local knowledge base. You can assist with coding, analysis, home automation, and computer vision tasks."""
+
+PARAMETER temperature 0.7
+PARAMETER num_ctx 4096
+PARAMETER num_predict 1024
