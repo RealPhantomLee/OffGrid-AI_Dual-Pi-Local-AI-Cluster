@@ -5,7 +5,7 @@ Performance measurements for the verified hardware configuration:
 - **jolly:** Raspberry Pi 5 8GB + 32GB SD card
 - **Network:** Both nodes on Gigabit Ethernet switch
 - **Model:** Mistral Small 3.1 24B Q4_K_M (14.3 GB)
-- **llama-server flags:** `--ctx-size 4096 --n-gpu-layers 0 --no-repack --rpc 192.168.1.16:50052`
+- **llama-server flags:** `--ctx-size 4096 --n-gpu-layers 0 --no-repack --rpc <JOLLY_LOCAL_IP>:50052`
 
 ## Inference Speed (Mistral Small 3.1 24B)
 
@@ -95,7 +95,7 @@ print(f'Response: {r[\"choices\"][0][\"message\"][\"content\"][:100]}...')
 
 # Check RAM on both nodes
 free -h
-ssh jolly@192.168.1.16 "free -h"
+ssh <username>@<JOLLY_LOCAL_IP> "free -h"
 
 # Monitor temperature during inference
 watch -n 2 'vcgencmd measure_temp'

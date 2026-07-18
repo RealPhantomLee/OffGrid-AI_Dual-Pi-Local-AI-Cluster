@@ -19,7 +19,7 @@ Finally, distributed inference across two nodes is what makes this economically 
                           │                  HOME LAN  192.168.1.x               │
                           │                                                       │
   Browser / API Client    │  ┌────────────────────────────────────────────────┐  │
-  ─────────────────────   │  │                 aipi  (192.168.1.10)           │  │
+  ─────────────────────   │  │                 aipi  (<AIPI_LOCAL_IP>)           │  │
                           │  │                                                │  │
   :3000  Open WebUI ──────┼──┤  open-webui       :3000  (Docker)             │  │
   :8080  Agent API ───────┼──┤  agent-hub        :8080  (FastAPI)            │  │
@@ -40,7 +40,7 @@ Finally, distributed inference across two nodes is what makes this economically 
                           │              (1GbE LAN)  │  layer distribution       │
                           │                          ▼                           │
                           │  ┌────────────────────────────────────────────────┐  │
-                          │  │                 jolly  (192.168.1.11)          │  │
+                          │  │                 jolly  (<JOLLY_LOCAL_IP>)          │  │
                           │  │                                                │  │
                           │  │  rpc-server       :50052  (llama.cpp RPC)     │  │
                           │  │  (no user-facing services)                    │  │

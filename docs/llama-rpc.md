@@ -37,7 +37,7 @@ This error was confirmed on our aipi node and will appear immediately at model l
 ```ini
 ExecStart=/home/merry/llama.cpp/build/bin/llama-server \
     --model /home/merry/models/mistral-24b-q4_k_m.gguf \
-    --rpc 192.168.1.16:50052 \
+    --rpc <JOLLY_LOCAL_IP>:50052 \
     --host 0.0.0.0 \
     --port 8080 \
     --ctx-size 4096 \
@@ -128,7 +128,7 @@ llama_model_load: loading model from '/home/merry/models/mistral-24b-q4_k_m.gguf
 ...
 CPU : NEON = 1 | ARM_FMA = 1 | DOTPROD = 1 | ...
 ...
-RPC0: 192.168.1.16:50052 (7953 MiB, 7953 MiB free)
+RPC0: <JOLLY_LOCAL_IP>:50052 (7953 MiB, 7953 MiB free)
 ...
 llama_model_load: offloading N layers to RPC0
 ...
@@ -140,7 +140,7 @@ Line-by-line interpretation:
 
 | Log line | Meaning |
 |---|---|
-| `RPC0: 192.168.1.16:50052 (7953 MiB, 7953 MiB free)` | jolly is reachable at that IP and port. First number is total memory reported by the worker; second is free memory available for layer allocation. 7953 MiB ≈ 7.8 GB, confirming jolly's 8 GB is mostly free at startup. |
+| `RPC0: <JOLLY_LOCAL_IP>:50052 (7953 MiB, 7953 MiB free)` | jolly is reachable at that IP and port. First number is total memory reported by the worker; second is free memory available for layer allocation. 7953 MiB ≈ 7.8 GB, confirming jolly's 8 GB is mostly free at startup. |
 | `offloading N layers to RPC0` | The number of transformer layers assigned to jolly. For Mistral 24B, the model has 40 layers; layer distribution depends on relative free memory between aipi and jolly. |
 | `projected to use 1277 MiB of host memory` | aipi's expected RAM usage for context buffers, KV cache, scratch space, and the locally-held layers. This is the number to watch — it must fit within aipi's available RAM after the OS, Ollama, and other services are loaded. |
 
@@ -156,7 +156,7 @@ Port 50052 must be open on jolly (the worker node) so that aipi can connect. On 
 
 ```bash
 # On jolly — replace with aipi's actual IP
-sudo ufw allow from REDACTED_LAN_IP to any port 50052
+sudo ufw allow from <PRIMARY_NODE_IP> to any port 50052
 sudo ufw reload
 sudo ufw status
 ```
@@ -167,10 +167,10 @@ If you need to diagnose a firewall issue:
 
 ```bash
 # On aipi — test raw TCP connectivity to jolly
-nc -zv 192.168.1.16 50052
+nc -zv <JOLLY_LOCAL_IP> 50052
 ```
 
-A successful response is `Connection to 192.168.1.16 50052 port [tcp/*] succeeded!`. A timeout or `Connection refused` indicates either the service is not running or UFW is blocking it.
+A successful response is `Connection to <JOLLY_LOCAL_IP> 50052 port [tcp/*] succeeded!`. A timeout or `Connection refused` indicates either the service is not running or UFW is blocking it.
 
 ---
 

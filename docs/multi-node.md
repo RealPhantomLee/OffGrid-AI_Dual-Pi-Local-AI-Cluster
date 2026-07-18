@@ -73,7 +73,7 @@ ExecStart=/home/merry/llama.cpp/build/bin/llama-server \
     --ctx-size 4096 \
     --n-gpu-layers 0 \
     --no-repack \
-    --rpc 192.168.1.16:50052 \
+    --rpc <JOLLY_LOCAL_IP>:50052 \
     --rpc <NEW_NODE_IP>:50052
 ```
 
@@ -90,8 +90,8 @@ journalctl -u llama-server -n 30 --no-pager | grep RPC
 
 Expected output with 3 nodes:
 ```
-I   - RPC0    : 192.168.1.16:50052 (7953 MiB, 7953 MiB free)
-I   - RPC1    : 192.168.1.17:50052 (7953 MiB, 7953 MiB free)
+I   - RPC0    : <JOLLY_LOCAL_IP>:50052 (7953 MiB, 7953 MiB free)
+I   - RPC1    : <WORKER_2_IP>:50052 (7953 MiB, 7953 MiB free)
 ```
 
 ## Upgrading the Model After Adding a Node
@@ -134,7 +134,7 @@ Each additional RPC node adds ~20 network round-trips per generated token (one p
 
 ```bash
 # Quick health check for all nodes
-for ip in 192.168.1.16 192.168.1.17 192.168.1.18; do
+for ip in <JOLLY_LOCAL_IP> <WORKER_2_IP> <WORKER_3_IP>; do
     nc -w2 "$ip" 50052 2>/dev/null && echo "✓ $ip:50052" || echo "✗ $ip:50052 UNREACHABLE"
 done
 
@@ -142,7 +142,7 @@ done
 ss -tnp | grep 50052
 
 # Check rpc-server status on a remote node
-ssh jolly@192.168.1.16 "systemctl is-active rpc-server"
+ssh <username>@<JOLLY_LOCAL_IP> "systemctl is-active rpc-server"
 ```
 
 ## Heterogeneous Nodes
